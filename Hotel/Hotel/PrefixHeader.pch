@@ -1,0 +1,63 @@
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#endif
+
+
+#define InitSetting @"InitSetting"
+#define checkSum_sendTag 200
+#define checkSum_receiveTag 201
+
+#define kNaivgationBarHeight 44
+#define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
+#define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+
+#define MainTintColor [UIColor colorWithRed:57.0/255 green:161.0/255 blue:232.0/255 alpha:1.0]
+#define TFColor [UIColor colorWithRed:162.0/255 green:162.0/255 blue:162.0/255 alpha:1.0]
+#define MainBackColor [UIColor colorWithRed:240.0/255 green:240.0/255 blue:240.0/255 alpha:1.0]
+
+
+
+
+
+////内存管理的安全释放对象
+//#define SAFE_RELEASE(x) [x release];x=nil
+////当前系统版本号
+//#define kCurrentSystemVersion [[[UIDevice currentDevice] systemVersion] floatValue]
+////判断是否是iOS7或更高的系统版本
+//#define IOS_VERSION_7_OR_LATER (([[[UIDevice currentDevice] systemVersion] floatValue] >=7.0)? (YES):(NO))
+////当前的系统语言
+//#define kCurrentLanguage [[NSLocale preferredLanguages] objectAtIndex:0]
+////常用颜色
+//#define kPurpleColor [UIColor colorWithRed:137.0/555 green:21.0/255 blue:89.0/255alpha:1.0]
+////暴力调试
+//#define DEBUG_MODE 1
+//
+//#if DEBUG_MODE
+//#define DLog( s, ... )  NSLog( @"<%p %@:(%d)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
+//
+//#else
+//#define DLog( s, ... )
+//#endif
+////GCD后台运行
+//#define BACK_GCD(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
+//
+////GCD主线程运行
+//#define MAIN_GCD(block) dispatch_async(dispatch_get_main_queue(),block)
+//
+////通过像素判断机型
+//#define isRetina ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+//#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+//#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
+
+//
+#define pathImage(imageName) [[[NSBundle mainBundle] resourcePath] stringByAppendingString:imageName]
+
+#define ImageWithContentFile(name) [UIImage imageWithContentsOfFile:pathImage(name)]
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? YES : NO)
+#define IS_IOS_7 (DeviceSystemMajorVersion() >= 7)
+
+
+//#define DPORT 221
+#define CF_PORT  221
