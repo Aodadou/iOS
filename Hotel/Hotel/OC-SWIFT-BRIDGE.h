@@ -5,7 +5,6 @@
 
 //Util
 #import "SessionManager.h"
-#import "GlobalData.h"
 #import "GlobalMethod.h"
 #import "JNWSpringAnimation.h"
 #import "MyGlobalData.h"

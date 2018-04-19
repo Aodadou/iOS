@@ -185,11 +185,9 @@ static SessionManager* instance;
 
             NSString *username = [NSString stringWithFormat:@"%@%%%@",[userDefault valueForKey:@"name"],APP_ID];
             
-            CMD02_Login *cmd02 = [[CMD02_Login alloc] initWithUser:@"wifino999" Pass:@"123" Offset:(int)timeZone appid:[APP_ID intValue]];//
+            CMD02_Login *cmd02 = [[CMD02_Login alloc] initWithUser:@"wifino999" Pass:HOTEL_DEFAULT_PWD Offset:(int)timeZone appid:[APP_ID intValue]];
             
             [helper sendCMD:cmd02];
-        }else {
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"cmd01" object:nil];
         }
     }
     

@@ -14,9 +14,9 @@ class DeviceUtil: NSObject {
     
     static var roomNames:[String] = ["客厅","书房","卧室","阳台","厨房","餐厅"];
     
-    static var deviceDesNames:[String] = ["","插座","WiFi开关","灯控盒","灯开关及调光控制","空调遥控器","RGB灯","WI-FI电视锁","情景遥控器","WI-FI控制中心","空调遥控器","RGB冷暖灯","RGB冷暖灯","冷暖灯","机顶盒控制中心","RGB灯","窗帘开关","电饭煲","环境检测仪","带计量插座","中央空调控制面板","门磁","烟雾报警器","带计量热水器插座","中继设备","智能门锁","安防设备","智能药箱","晾衣架","","","","",""]
+    static var deviceDesNames:[String] = ["","插座","WiFi开关","灯控盒","灯开关及调光控制","空调遥控器","RGB灯","WI-FI电视锁","情景遥控器","WI-FI控制中心","空调遥控器","RGB冷暖灯","RGB冷暖灯","冷暖灯","机顶盒控制中心","RGB灯","窗帘开关","电饭煲","环境检测仪","带计量插座","中央空调控制面板","门磁","烟雾报警器","带计量热水器插座","中继设备","智能门锁","安防设备","智能药箱","晾衣架","","","","","","","","","","","","","","","","","","","","",""]
     
-    static var deviceImgNames:[String] = ["","2.4G","WiFi插座在线","灯控盒","2.4G灯开关及调光控制","空调","","WI-FI电视锁","派对模式按下","中控","空调","RGB+CW","RGB+CW","CW","灯图标","RGB","窗帘","","","","中央空调在线","门磁在线","烟感在线","热水器在线","中继","门锁在线","","","晾衣架","","","","",""]
+    static var deviceImgNames:[String] = ["","2.4G","WiFi插座在线","灯控盒","2.4G灯开关及调光控制","空调","","WI-FI电视锁","派对模式按下","中控","空调","RGB+CW","RGB+CW","CW","灯图标","RGB","窗帘","","","","中央空调在线","门磁在线","烟感在线","热水器在线","中继","门锁在线","","","晾衣架","","","","","","","","","","","","","","","",""]
     
     static var deviceImgOffLineNames:[String] = ["",
                                                  "2.4G插座离线",
@@ -50,7 +50,7 @@ class DeviceUtil: NSObject {
                                                  "",
                                                  "",
                                                  "",
-                                                 ""]
+                                                 "","","","","","","","","","","",""]
     
     class func getTimerTimeImage(_ time:Int) -> UIImage{
         let p = Bundle.main.resourcePath
@@ -152,6 +152,88 @@ class DeviceUtil: NSObject {
         return UIImage(contentsOfFile: path)
     }
 
+    
+    static func getDevStatuWithDev(device:Device) -> String{
+        var statu = ""
+        if device.online{
+            statu += "在线"
+        }else{
+            statu += "离线"
+            return statu
+        }
+        
+        
+//        let range = device.id.index(device.id.startIndex, offsetBy: 10) ..< device.id.index(device.id.startIndex, offsetBy: 12)
+//        let subtype = device.id.substring(with: range)
+        
+        
+        if device.type == 0x01 || device.type == 0x02 || device.type == 0x03{
+            
+            let d = device as! SwitcherDevice
+            if d.powerList.count > 1{
+                for (index,power) in d.powerList.enumerated(){
+                    if power.on{
+                        statu += " \(index + 1)开"
+                    }else{
+                        statu += " \(index + 1)关"
+                    }
+                }
+            }else{
+                if d.powerList.count > 0{
+                    if d.powerList.last!.on == true{
+                        statu += " 开"
+                    }else{
+                        statu += " 关"
+                    }
+                }else{
+                    statu += " 关"
+                }
+            }
+            
+        }else if device.type == 0x05 || device.type == 0x0A{
+            let aircondition = device as! AirConditionDevice
+            
+            if aircondition.on == true{
+                var modeString:String?
+                if aircondition.mode == AUTO_MODE{
+                    modeString = "自动"
+                }else if aircondition.mode == COOL_MODE{
+                    modeString = "制冷"
+                }else if aircondition.mode == WET_MODE{
+                    modeString = "除湿"
+                }else if aircondition.mode == WIND_MODE{
+                    modeString = "送风"
+                }else if aircondition.mode == WARM_MODE{
+                    modeString = "制热"
+                }
+                statu += " 开 温度\(aircondition.temperature + 16) \(modeString!)模式"
+            }else{
+                statu += " 关"
+            }
+        }else if device.type == 0x10{
+            //窗帘
+        }else if device.type == 0x13{
+            //带计量插座
+        }else if device.type == 0x14{
+            //中央空调
+        }else if device.type == 0x16{
+            //烟雾报警器
+        }else if device.type == 0x17{
+            //带计量热水器插座
+        }else if device.type == 0x19{
+            //门锁
+        }else if device.type == 0x1C{
+            //智能晾衣架
+        }else if device.type == 0x1E{
+            //百分比窗帘
+        }else if device.type == 0x25{
+            //门铃
+        }else if device.type == 0x29{
+            //在线场景开关
+        }
+        
+        return statu
+    }
 
 //    class func readDeviceStatu(_ oldDev:DeviceStatus,newDev:DeviceStatus) -> Device{
 //        if oldDev.id == newDev.id{

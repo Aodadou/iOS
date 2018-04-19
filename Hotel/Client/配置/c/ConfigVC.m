@@ -3,23 +3,18 @@
 
 // 一键配置
 #define CONFIG_TIME_OUT 60
-//#define CHECK_WIFI_TIME 1
 #import "ControlTcpSocket.h"
 #import "Util.h"
 #import "ConfigWifi.h"
 #import "CMDFactory.h"
 
 
-// wifi配置
 #import "Hotel-Swift.h"
 #import "Bolloon.h"
 #import "GlobalMethod.h"
-#import "MyUDPSocket.h"
 #import "SessionManager.h"
 #import "Reachability.h"
-#import "ServerResult.h"
 #import "MyGlobalData.h"
-#import <Protocol/CMDHelper.h>
 #import <Protocol/CMD03_ServerLoginRespond.h>
 #import <Protocol/CMD04_GetAllDeviceList.h>
 #import <Protocol/CMD0C_AddMasterDevice.h>
@@ -41,48 +36,25 @@
     SmartConfig1 *smartConfig;
     CMDFactory *cmdFactory;
     ConfigWifi *configWifi;
-    
-    NSTimer * checkWifiCanUse;        //检查网络是否可用
-    int checkWifiCount;               //检测网络可用次数
     NSTimer *timerOut;                //一键配置接受不到数据没有代理成功或失败时的超时处理
-    BOOL isShowPass;
-    BOOL isConfig; 
-    BOOL isSmartConfig;
-    BOOL isConfigCancel;
+
     
-    
-//共同
-    NSMutableArray * deviceTableArray;//设备列表
     NSUserDefaults * userDefaults;
-    NSTimer * sendCmdTimer;
+    NSTimer * addDeviceTimer;//配置成功后添加设备timer
+    
     UIView *backView;
+    UIView *navCoverView;
     UIView *coverView;
     int angle;
     BOOL isStop;
     NSTimer *lightTimer;
-    SessionManager * sm;
-    CMDHelper * helper;
-    BOOL matchSuccess;                //判断是否匹配成功
-    NSTimer *sendPacketTimer;         //匹配设备计时器
+    SessionManager *sm;
+    NSString *deviceName;
     NSString *macAddress;             //匹配到的Mac地址
-    NSString * wifi_ssid;             //Wi-Fi名称
+    NSString *wifi_ssid;             //Wi-Fi名称
     id info;                          //Wi-Fi信息
-    Reachability * reach;             //检测网络是否连通
-    UIAlertView * networkAlertView;   //判断网络是否可用
-    UIAlertView * alert;
-    UIAlertView * wifiAlert;
-    NSTimer * addDeviceTimer;         //添加设备等待时间
-    NSTimer * checkWifiDisappearTimer;//检查设备热点是否消失
-    BOOL isRememberMe;
-
-    int sendPacketTimes;              //发送包的次数
+    Reachability *reach;             //检测网络是否连通
     
-//WIFI配置
-    
-    MyUDPSocket * udpSocket;          //用于匹配发码的字节套
-    InitConnPacket *packet;           //发送数据的包
-    
-    NSMutableData *_datas;            //接收信息采集回调的信息
 }
 @end
 
@@ -90,67 +62,50 @@
 
 #pragma mark- 一键配置
 //一键配置
-////###########################################################################第一步：一键配置，发送路由器信息给设备
+//###########################################################################
+//第一步：一键配置，发送路由器信息给设备
 
 - (void)onceConfig:(UIButton *)sender{
+    if (sm.controlTcp != nil) {
+        [sm.controlTcp closeSocket];
+    }
     self.wifiImage.hidden = NO;
+    macAddress = @"";
+    deviceName = @"一键配置设备";
+    [self cancelAllTimer];
     
-    UIButton *btn = sender;
-    if (btn == self.btn_config) {
+    if ([sender.titleLabel.text isEqualToString:@"取消配置"]) {
         
-        if (isConfigCancel) {
-            isConfigCancel= NO;
-            isConfig = NO;
-            macAddress = @"";
-            matchSuccess = NO;
-            [self.btn_config setTitle:@"配置设备" forState:UIControlStateNormal];
-            if (isSmartConfig) {
-                if (timerOut != nil) {
-                    [timerOut invalidate];
-                    timerOut = nil;
-                }
-                [smartConfig stopConfig];
-            }else {
-                if (checkWifiCanUse != nil) {
-                    [checkWifiCanUse invalidate];
-                    checkWifiCanUse = nil;
-                }
-            }
-            isStop = NO;
-            return;
-        }else {
-            isConfigCancel = YES;
-            [self.btn_config setTitle:@"取消配置" forState:UIControlStateNormal];
-        }
-        
-        isConfig = YES;
-        checkWifiCount = 0;
-        macAddress = @"";
-        matchSuccess = NO;
-        sm.isLogin = NO;
+        [self.btn_config setTitle:@"配置设备" forState:UIControlStateNormal];
+        [self stopConfing];
         [sm closeSession:YES];
         
-        //[self performSelectorInBackground:@selector(ThreadSearch) withObject:nil];
-        //一键配置等待5s之后在配置，否则第一次配置失败
-
-        isSmartConfig = YES;
-        [self smartConfig];
+        isStop = YES;
+        return;
+    }else {
+        [self.btn_config setTitle:@"取消配置" forState:UIControlStateNormal];
+        [sm startSession];
+        [self startConfig];
+        [self startAnimation];
     }
+    
 }
 
-- (void)smartConfig {
+- (void)startConfig {
     [smartConfig startConfig:self.tf_ssid.text wifiPas:self.tf_routerPwd.text];
     timerOut = [NSTimer scheduledTimerWithTimeInterval:CONFIG_TIME_OUT target:self selector:@selector(configFailed) userInfo:nil repeats:NO];
 }
+- (void)stopConfing{
+    [smartConfig stopConfig];
+}
 
 //########################################################################SmartConfig代理
-
 //第二步：发送成功之后，建立tcp连接，向设备发送服务器信息
 - (void)configSuccess:(NSString *)mac host:(NSString *)host {
     macAddress  = mac;
-//--    sm.controlTcp = [[ControlTcpSocket alloc]init];
-//--    [sm.controlTcp startToConnectServer:host];
-//--    sm.controlTcp.mode = 1;
+    sm.controlTcp = [[ControlTcpSocket alloc]init];
+    [sm.controlTcp startToConnectServer:host];
+    sm.controlTcp.mode = 1;
     NSArray *hosts = [sm.host componentsSeparatedByString:@"."];
     Byte hots[] = {[hosts[0] integerValue],[hosts[1] integerValue],[hosts[2]integerValue],[hosts[3] integerValue]};
     NSData *hostData = [NSData dataWithBytes:&hots length:4];
@@ -167,118 +122,99 @@
     [data appendData:hostData];
     [data appendData:portData];
     
-//--    [sm.controlTcp sendData:data];
+    [sm.controlTcp sendData:data];
+}
+//###############################################################################
+//第三步：发送服务器信息给设备后，接收通知
+- (void)configSuccess:(NSNotification*)noti {
+    //[GlobalMethod toast:@"设备同步成功"];
+    [self.btn_config setTitle:@"配置设备" forState:UIControlStateNormal];
+    NSString *status = [noti object];
+    if ([status isEqualToString:@"1"]) {
+        [self cancelAllTimer];
+        [sm closeSession:YES];
+        [sm startSession];
+        [GlobalMethod showProgressDialog:@"正在添加"];
+        addDeviceTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self
+                                                        selector:@selector(sendCmdTimeOut) userInfo:nil repeats:NO];
+    }else {
+        [self configFailed];
+    }
 }
 
 - (void)configFailed {
     NSLog(@"一键配置失败");
-    isConfig = NO;
-    [self cancelConfigTimerOut];
-    [GlobalMethod closePressDialog];
-    isConfigCancel = YES;
-    
     [self sendCmdTimeOut];
-
-    isConfigCancel= NO;
-    isConfig = NO;
-    macAddress = @"";
-    matchSuccess = NO;
-    if (isSmartConfig) {
-        if (timerOut != nil) {
-            [timerOut invalidate];
-            timerOut = nil;
-        }
-        [smartConfig stopConfig];
-    }
-
-}
-
-//#################################################################################
-
-- (void)cancelConfigTimerOut {
-    isConfigCancel = YES;
-    [self.btn_config setTitle:@"配置" forState:UIControlStateNormal];
-    if (timerOut != nil) {
-        [timerOut invalidate];
-        timerOut = nil;
-    }
-}
-
--(void)ThreadSearch{
-    
-    while (isConfig) {
-        [NSThread sleepForTimeInterval:1];
-    }
-    
-}
-
-//###############################################################################
-//#pragma mark- UINotification Center
-//第三步：发送服务器信息给设备后，接收通知
-- (void)configSuccess:(NSNotification*)noti {
-    isConfig = NO;
-    //[GlobalMethod toast:@"成功"];
-    [self.btn_config setTitle:@"配置设备" forState:UIControlStateNormal];
-    NSString *status = [noti object];
-    if ([status isEqualToString:@"1"]) {
-        isConfigCancel = NO;
-        matchSuccess = YES;
-        
-        [self cancelAllTimer];
-        [timerOut invalidate];
-        timerOut = nil;
-        
-        if (isSmartConfig) {
-            [sm closeSession:YES];
-            [GlobalMethod showProgressDialog:@"添加..."];
-            sm.mode = @"login";
-            [sm startSession];
-        }
-        
-    }else {
-        matchSuccess = NO;
-        if (isSmartConfig) {
-            [self configFailed];
-        }
-        
-    }
+    [smartConfig stopConfig];
 }
 
 #pragma mark - 视图周期
 //##############################################################
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveCMD:) name:kReceiveCMD object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveAllDevice:) name:@"getAllDevice" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFF:) name:@"Receive_FF" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(enterBackGround:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configSuccess:) name:CONFIG_STATUS object:nil];
+    
+}
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"配置设备";
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.view.backgroundColor = MainBackColor;
     UILabel *lb_ssid = [[UILabel alloc] init];
     lb_ssid.text = @"路由器名称";
     UILabel *lb_pws = [[UILabel alloc] init];
     lb_pws.text = @"路由器密码";
+    lb_ssid.textColor = TFColor;
+    lb_pws.textColor = TFColor;
     self.tf_routerPwd = [[UITextField alloc] init];
     self.tf_ssid = [[UITextField alloc] init];
     self.img_pwdBack = [[UIImageView alloc] init];
     self.img_ssidBack = [[UIImageView alloc] init];
+    self.btn_showPwd = [[UIButton alloc] init];
     self.btn_config = [[UIButton alloc] init];
+    self.wifiImage = [[UIImageView alloc] init];
+    self.fastLight = [[UIImageView alloc] init];
+
     [self.view addSubview:lb_ssid];
     [self.view addSubview:lb_pws];
-    [self.view addSubview:self.tf_routerPwd];
-    [self.view addSubview:self.tf_ssid];
     [self.view addSubview:self.img_ssidBack];
     [self.view addSubview:self.img_pwdBack];
+    [self.view addSubview:self.tf_routerPwd];
+    [self.view addSubview:self.tf_ssid];
+    [self.view addSubview:self.btn_showPwd];
     [self.view addSubview:self.btn_config];
+    [self.view addSubview:self.wifiImage];
+    [self.view addSubview:self.fastLight];
+    
     
     self.img_ssidBack.image = ImageWithContentFile(@"/配置设备输入框.png");
     self.img_pwdBack.image = ImageWithContentFile(@"/配置设备输入框.png");
-    [self.btn_config setBackgroundImage:ImageWithContentFile(@"/登陆按钮.png") forState:UIControlStateNormal];
-    [self.btn_config setBackgroundImage:ImageWithContentFile(@"登陆按钮按下.png") forState:UIControlStateHighlighted];
-    [self.btn_config setTitle:@"" forState:UIControlStateApplication];
+    self.wifiImage.image = ImageWithContentFile(@"/WIFI配置.png");
+    [self.btn_showPwd setBackImageForStatusWithNormal:@"记住密码按钮.png" highLight:@"记住密码按钮按下.png"];
+    [self.btn_config setBackImageForStatusWithNormal:@"登陆按钮.png" highLight:@"登陆按钮按下.png"];
+    self.fastLight.image = ImageWithContentFile(@"/快闪灯.png");
+    self.fastLight.hidden = YES;
+    [self.btn_config setTitle:@"配置设备" forState:UIControlStateNormal];
     [self.btn_config setTintColor:[UIColor whiteColor]];
+    [self.tf_ssid setTextColor: TFColor];
+    [self.tf_routerPwd setTextColor:TFColor];
+    self.tf_routerPwd.secureTextEntry = YES;
+    [self.btn_config addTarget:self action:@selector(config:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btn_showPwd addTarget:self action:@selector(showPassword:) forControlEvents:UIControlEventTouchUpInside];
+
+    
     [lb_ssid mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.view).with.multipliedBy(555 / 750.0);
         make.height.mas_equalTo(25);
-        make.top.mas_equalTo(79);
+        make.top.mas_equalTo(15);
         make.centerX.equalTo(self.view);
     }];
     [_img_ssidBack mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -286,6 +222,12 @@
         make.height.equalTo(lb_ssid.mas_width).with.multipliedBy(115 / 555.0);
         make.centerX.equalTo(self.view);
         make.top.equalTo(lb_ssid.mas_bottom).offset(15);
+    }];
+    [_tf_ssid mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(35);
+        make.left.equalTo(_img_ssidBack.mas_left).offset(10);
+        make.right.equalTo(_img_ssidBack.mas_right).offset(-10);
+        make.center.equalTo(_img_ssidBack);
     }];
     [lb_pws mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(lb_ssid.mas_width);
@@ -299,11 +241,35 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(lb_pws.mas_bottom).offset(15);
     }];
+    [_btn_showPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(_img_pwdBack).with.multipliedBy(2.0 / 3);
+        make.width.equalTo(_btn_showPwd.mas_height);
+        make.right.equalTo(_img_pwdBack.mas_right).offset(-10);
+        make.centerY.equalTo(_img_pwdBack);
+    }];
+    [_tf_routerPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(35);
+        make.left.equalTo(_img_pwdBack.mas_left).offset(10);
+        make.right.equalTo(_btn_showPwd.mas_left).offset(10);
+        make.centerY.equalTo(_img_pwdBack);
+    }];
     [_btn_config mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(lb_ssid);
         make.height.equalTo(_img_ssidBack);
         make.centerX.equalTo(self.view);
-        make.top.equalTo(_img_pwdBack.mas_bottom).offset(15);
+        make.top.equalTo(_img_pwdBack.mas_bottom).offset(40);
+    }];
+    [_wifiImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(_btn_config).with.multipliedBy(0.25);
+        make.height.equalTo(_wifiImage.mas_width).multipliedBy(78 / 59.0);
+        make.top.equalTo(_btn_config.mas_bottom).offset(29);
+        make.centerX.equalTo(_btn_config);
+    }];
+    [_fastLight mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_wifiImage);
+        make.width.equalTo(_wifiImage.mas_width);
+        make.height.equalTo(_wifiImage.mas_width);
+        make.centerX.equalTo(_btn_config);
     }];
     
     
@@ -318,104 +284,67 @@
     leftBarItem.tag = 999;
     [[UIApplication sharedApplication].keyWindow addSubview:leftBarItem];
     
-    
-    self.tf_routerPwd.delegate = self;
-    self.tf_ssid.delegate = self;
-    sm = [SessionManager shareSessionManager];
-    sm.isLogin = NO;
-    
-    //是空调的话
-    if (self.isAirControl) {
-        configWifi = [[ConfigWifi alloc]init];
-        cmdFactory  = [CMDFactory getInstance];
-        smartConfig  = [SmartConfig1 getInstance];
-        smartConfig.delegate = self;
-    }else{
-        
-        udpSocket = [[MyUDPSocket alloc] init];
-    }
-    
-    helper = [CMDHelper shareInstance];
-    [sm closeSession:YES];
-    userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    //reachablity 的使用，看网络是否属于连接状态
-    NSLog(@"开启 www.wifino1.com 的网络检测");
-    reach = [Reachability reachabilityWithHostname:HOST];//HOST
-    NSLog(@"-- current status: %d", reach.currentReachabilityStatus);
-    
-    deviceTableArray =[MyGlobalData getDeviceList];
-    if(deviceTableArray == nil){
-        deviceTableArray = [[NSMutableArray alloc] init];
-    }
-    
-    if([[UIScreen mainScreen] bounds].size.height == 480){
-        self.fastLight.hidden = YES;
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    return;
-
     NSString * wifiname =[self.tf_routerPwd.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (wifiname.length <= 0) {
         self.btn_showPwd.hidden = true;
     }else{
         self.btn_showPwd.hidden = false;
     }
-
-    self.deviceName = @"控制中心";
-    if (self.isAirControl) {
-        self.deviceName = @"一键配置设备";
-    }
-//---    sm.isConfiguration = YES;
-
+    userDefaults = [NSUserDefaults standardUserDefaults];
     info = [GlobalMethod getNetworkInfo];
     wifi_ssid = [info objectForKey:@"SSID"];
     self.tf_ssid.text = wifi_ssid;
     if (self.tf_ssid.text){
         self.tf_routerPwd.text = [userDefaults valueForKey:self.tf_ssid.text];
     }
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveCMD:) name:kReceiveCMD object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveAllDevice:) name:@"getAllDevice" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFF:) name:@"Receive_FF" object:nil];
+    self.tf_routerPwd.delegate = self;
+    self.tf_ssid.delegate = self;
+    sm = [SessionManager shareSessionManager];
+    [sm closeSession:YES];
     
-    //当与设备匹配收到结果，得到通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDataFromServer:) name:InitSetting object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(enterBackGround:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configSuccess:) name:CONFIG_STATUS object:nil];
+    configWifi = [[ConfigWifi alloc]init];
+    cmdFactory  = [CMDFactory getInstance];
+    smartConfig  = [SmartConfig1 getInstance];
+    smartConfig.delegate = self;
 
-    //启用检测
-    [reach startNotifier];
+    //reachablity 的使用，看网络是否属于连接状态
+    NSLog(@"开启网络检测");
+    reach = [Reachability reachabilityWithHostname:HOST];//HOST
+    NSLog(@"-- current status: %d", reach.currentReachabilityStatus);
+    
+
+    
+    if([[UIScreen mainScreen] bounds].size.height == 480){
+        self.fastLight.hidden = YES;
+    }
 }
+
+
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    return;
-
-    if([[UIScreen mainScreen] bounds].size.height == 480){
-        CGRect frame = self.fastLight.frame;
-        frame.origin.y = SCREEN_HEIGHT / 2;
-        
-        self.fastLight.transform = CGAffineTransformMakeTranslation(0, -150);
-        self.fastLight.hidden = NO;
-        
-    }
     
     backView = [[UIView alloc] init];
-    backView.frame = self.view.bounds;
+    backView.frame = UIScreen.mainScreen.bounds;
     backView.backgroundColor = [UIColor blackColor];
     backView.alpha = 0.5;
     [self.view addSubview:backView];
     
+    navCoverView = [[UIView alloc] init];
+    navCoverView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
+    navCoverView.backgroundColor = [UIColor blackColor];
+    navCoverView.alpha = 0.5;
+    [[UIApplication sharedApplication].keyWindow addSubview:navCoverView];
     
-    [((MyTabBarVC *)([UIApplication sharedApplication].keyWindow.rootViewController)) showMaskView];
     
+//    if([[UIScreen mainScreen] bounds].size.height == 480){
+//        CGRect frame = self.fastLight.frame;
+//        frame.origin.y = SCREEN_HEIGHT / 2;
+//
+//        self.fastLight.transform = CGAffineTransformMakeTranslation(0, -150);
+//        self.fastLight.hidden = NO;
+//
+//    }
     
     
     
@@ -426,12 +355,12 @@
     }
     
     [self firstStep];
-    
     angle = 0;
     
     CGRect frame = self.fastLight.frame;
     frame.origin.y += 0.5;
     frame.origin.x -= 0.5;
+    self.fastLight.hidden = NO;
     coverView = [[UIView alloc] init];
     coverView.frame = frame;
     coverView.backgroundColor = [UIColor grayColor];
@@ -446,13 +375,13 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-//--    sm.isConfiguration = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if(backView){
         [backView removeFromSuperview];
         backView = nil;
-        [((MyTabBarVC *)([UIApplication sharedApplication].keyWindow.rootViewController)) removeMaskView];
+        [navCoverView removeFromSuperview];
+        navCoverView = nil;
     }
     
     for(UIView *view in self.view.subviews){
@@ -465,11 +394,9 @@
         }
     }
     
-    if(self.isAirControl){
-//--        sm.controlTcp.mode = 0;
-        if (![sm isConnected]) {
-            [sm startSession];
-        }
+    sm.controlTcp.mode = 0;
+    if (![sm isConnected]) {
+        [sm startSession];
     }
     
 }
@@ -477,7 +404,6 @@
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [self cancelAllTimer];
-    
 }
 
 - (void)didReceiveMemoryWarning{
@@ -492,114 +418,36 @@
     [userDefaults synchronize];
 }
 
--(void)removeAlertView{
-    [networkAlertView dismissWithClickedButtonIndex:0 animated:NO];
-    [alert dismissWithClickedButtonIndex:0 animated:NO];
-    [wifiAlert dismissWithClickedButtonIndex:0 animated:NO];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(alertView == alert){
-        if(![alertView.title isEqualToString:@"配置失败"]){
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
-        }
-    }
-}
 
 - (void)dealloc{
     NSLog(@"配置界面销毁了");
 }
 
 #pragma mark- 响应事件
-- (IBAction)config:(id)sender {
+- (void)config:(id)sender {
     
-    UIButton *btn = sender;
-    if (btn == self.btn_config) {
-        
-        
-        info = [GlobalMethod getNetworkInfo];
-        NSString * name =[self.tf_ssid.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if (name.length <=0) {
-            [GlobalMethod toast:@"请连接至有效Wifi"];
-            return;
-        }
-        
-        macAddress = nil;
+    NSString * name =[self.tf_ssid.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (name.length <=0) {
+        [GlobalMethod toast:@"请连接至有效Wifi"];
+        return;
     }
+    [self saveDataToUserDefaults];
+    //开始旋转动画
     
-    
-    if(!self.isAirControl){
-        [self wifiConfig];
-        [udpSocket closeSocket];
-        udpSocket = nil;
-        udpSocket= [[MyUDPSocket alloc] init];
-        [self tfReturn];
-        sm.isLogin = NO;
-        //[sm closeSession:YES];
-        [self saveDataToUserDefaults];
-        info = [GlobalMethod getNetworkInfo];
-        
-        NSString * wifi =[info objectForKey:@"SSID"];
-        NSString * name =[self.deviceName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        
-        //如果wifi名同。。。不一样
-        if (![wifi isEqualToString:@"wifino1"]) {
-            [self removeAlertView];
-            
-            alert = [[UIAlertView alloc] initWithTitle:nil message:@"请先切换Wifi到“wifino1”再回到此应用" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            alert.delegate = self;
-            [alert show];
-            return;
-        }else{
-            macAddress = [info objectForKey:@"BSSID"];
-            macAddress = [GlobalMethod cutMacAddressString:macAddress];
-            macAddress = [NSString stringWithFormat:@"%@%@",@"00",macAddress].uppercaseString;
-        }
-        if (name.length <=0) {
-            [GlobalMethod toast:@"The device name can't be empty!"];
-            return;
-        }
-        
-        //第一次发送匹配设备的包
-        sendPacketTimes = 1;
-        packet = [[InitConnPacket alloc] initWithSsid:self.tf_ssid.text Password:self.tf_routerPwd.text];
-        [udpSocket sendToUDPServer:packet];
-        [self cancelAllTimer];
-        sendPacketTimer = [NSTimer scheduledTimerWithTimeInterval:TEMP_TIME_OUT target:self selector:@selector(sendPacket) userInfo:nil repeats:YES];
-        checkWifiDisappearTimer = [NSTimer scheduledTimerWithTimeInterval:CHECK_WIFI_TIME target:self selector:@selector(checkWifiDisappear) userInfo:nil repeats:YES];
-    }else{
-        [self onceConfig:sender];
-    }
-    
+    [self onceConfig:sender];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    btn.enabled = NO;
-    [btn setTitle:@"配置中..." forState:(UIControlStateNormal)];
-    
-    
-    //开始旋转动画
-    [self startAnimation];
 }
 
-/**wifi配置*/
-- (void)wifiConfig{
-    
-}
 
 
 
 
 - (void)back{
-    sm.isLogin = YES;
-    if (![sm connected]) {
-        //[sm startSession];
-    }
-    [udpSocket closeSocket];
     [self.navigationController popViewControllerAnimated:YES];
-    [self saveDataToUserDefaults];
 }
 
-- (IBAction)showPassword:(id)sender {
+- (void)showPassword:(id)sender {
     UIButton *btn = sender;
     if (btn.tag == 10){
         [self.tf_routerPwd setSecureTextEntry:YES];
@@ -632,9 +480,6 @@
 }
 
 
-
-
-
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     if(textField == self.tf_routerPwd){
         self.btn_showPwd.hidden = false;
@@ -658,17 +503,19 @@
 #pragma mark- NSNotificationCenter通知
 
 -(void)receiveCMD:(NSNotification*)obj{
-    sm.isLogin = YES;
     ServerCommand * cmd = [obj object];
     if (cmd->CommandNo == [CMD03_ServerLoginRespond commandConst]) {
-        [sendCmdTimer invalidate];
+        [self cancelAddDeviceTimer];
         CMD03_ServerLoginRespond * cmd03 = (CMD03_ServerLoginRespond*)cmd;
         if (cmd03.result) {
             
             //NSArray *arr = [self.scanValue componentsSeparatedByString:@"-"];
             //NSString *snPwd = arr[1];
-            sendCmdTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self
-                                                          selector:@selector(sendCmdTimeOut) userInfo:nil repeats:NO];
+            if (macAddress == nil || [macAddress isEqualToString:@""]) {
+                return;
+            }
+            
+            
             NSString *subMac;
             if ([macAddress length] == 12){
                 subMac = [macAddress substringFromIndex:9];
@@ -678,73 +525,56 @@
             
             NSLog(@"您所添加的设备mac:%@",macAddress);
             
-            NSString *trueDname = [NSString stringWithFormat:@"%@-%@",self.deviceName,subMac];
-            //去掉前两位“00”
-            NSString *trueMacAddress;
-            if(!self.isAirControl){
-                trueMacAddress = [macAddress substringFromIndex:2];
-            }else{
-                trueMacAddress = macAddress;
-            }
+            NSString *trueDname = [NSString stringWithFormat:@"%@-%@",deviceName,subMac];
             
-//            CMD0C_AddMasterDevice * cmd0c = [[CMD0C_AddMasterDevice alloc] initWithPass:@"123" MAC:trueMacAddress Name:trueDname Place:self.lb_roomName.text groupId:self.groupId];
-//            [helper sendCMD:cmd0c];
-            //macAddress = nil;
+            int devType;
+            if (macAddress.length == 12) {
+                devType = 0;
+            }else{
+                devType = (int)[[macAddress substringToIndex:2] integerValue];
+            }
+
+            CMD0C_AddMasterDevice * cmd0c = [[CMD0C_AddMasterDevice alloc] initWithPass:HOTEL_DEFAULT_PWD Mac:macAddress Name:trueDname Place:@"" DeviceType:devType];
+            [sm sendCmd:cmd0c];
             
         }
     }
     if (cmd->CommandNo == [CMD0D_ServerAddMasterDeviceResult commandConst]) {
-        [sendCmdTimer invalidate];
+        [self cancelAddDeviceTimer];
         CMD0D_ServerAddMasterDeviceResult * cmd0d = (CMD0D_ServerAddMasterDeviceResult*)cmd;
+        [self.btn_config setTitle:@"配置设备" forState:(UIControlStateNormal)];
+        [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+        [self cancelAllTimer];
+        isStop = YES;
+        macAddress = nil;
+        
+        [GlobalMethod closePressDialog];
         if (cmd0d.result == YES) {
-            self.btn_config.enabled = YES;
-            [self.btn_config setTitle:@"配置" forState:(UIControlStateNormal)];
-            [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-            
-            [userDefaults setObject:macAddress forKey:macAddress];
-            
+
             [GlobalMethod toast:@"添加成功"];
-            isStop = YES;
             
-            CMD16_QueryUserInfo *cmd16 = [[CMD16_QueryUserInfo alloc] init];
-            
-            [sm sendCmd:cmd16];
+            [self.navigationController popToRootViewControllerAnimated:true];
             
         }else{
             [GlobalMethod toast:@"设备添加失败"];
-            [self cancelAllTimer];
         }
         
     }
-    
-    if (cmd ->CommandNo == [CMD17_ServerQueryUserResult commandConst]) {
-        CMD17_ServerQueryUserResult *cmd17 = (CMD17_ServerQueryUserResult *)cmd;
-        
-        [userDefaults setValue:@"true" forKey:@"tabIsReturnTo1"];
-        [userDefaults synchronize];
-        macAddress = nil;
-        [self.navigationController popToRootViewControllerAnimated:true];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"kRefresh" object:nil];
-        [udpSocket closeSocket];
-    }
+
     
 }
 
 -(void)receiveAllDevice:(NSNotification*)obj{
-    [sendCmdTimer invalidate];
+    [self cancelAddDeviceTimer];
     [GlobalMethod closePressDialog];
-    [udpSocket closeSocket];
-    
-    isStop = YES;
 }
 
 -(void)receiveFF:(NSNotification *)obj{
-    self.btn_config.enabled = YES;
-    [self.btn_config setTitle:@"配置" forState:(UIControlStateNormal)];
+    [self.btn_config setTitle:@"配置设备" forState:(UIControlStateNormal)];
     self.btn_config.enabled = YES;
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     isStop = YES;
-    [sendCmdTimer invalidate];
+    [self cancelAllTimer];
     [GlobalMethod closePressDialog];
     NSString * infoFF = [obj.object objectForKey:@"info"];
     
@@ -760,135 +590,47 @@
         [GlobalMethod toast:infoFF];
     }
     
-    sm.isLogin= NO;
-    [udpSocket closeSocket];
 }
 
-//设备回调通知
-- (void)receiveDataFromServer:(NSNotification *)notification{
-    NSLog(@"isMainThread:%d",[NSThread isMainThread]);
-    [self cancelAllTimer];
-    ServerResult *rs = [notification object];
-    if (rs.isInitSucc == 1) {
-        matchSuccess = YES;
-        addDeviceTimer = [NSTimer scheduledTimerWithTimeInterval:ADD_DEVICE_TIME_OUT target:self selector:@selector(sendCmdTimeOut) userInfo:nil repeats:NO];
-        NSLog(@"match device success");
-        [GlobalMethod toast:@"WiFi设备同步成功"];
-    } else {
-        [GlobalMethod closePressDialog];
-        NSLog(@"match device fail");
-        [GlobalMethod toast:@"WiFi设备同步失败"];
-        matchSuccess = NO;
-        [self sendCmdTimeOut];
-    }
-    
-}
 -(void)becomeActive:(NSNotificationCenter*)obj{
-    
     info = [GlobalMethod getNetworkInfo];
-    
 }
 -(void)enterBackGround:(NSNotificationCenter*)obj{
     [self tfReturn];
 }
 
-//网络改变 切换回ssid
-- (void)reachabilityChanged: (NSNotification*)note {
-    
-    Reachability * reachability = [note object];
-    if(![reachability isReachable]){
-        [addDeviceTimer invalidate];
-        addDeviceTimer = nil;
-        NSLog(@"网络不可用");
-    }else{
-        NSLog(@"网络可用") ;
-        [addDeviceTimer invalidate];
-        addDeviceTimer = nil;
-        [self removeAlertView];
-        if (matchSuccess == YES) {
-            [sm closeSession:YES];
-            sm.mode = @"login";
-            [sm startSession];
-            sendCmdTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(sendCmdTimeOut) userInfo:nil repeats:YES];
-        }
-        matchSuccess = NO;
-    }
-    
-    if (reach.isReachableViaWiFi) {
-        NSLog(@"当前通过wifi连接") ;
-    } else {
-        NSLog(@"wifi未开启，不能用");
-    }
-    
-    if (reach.isReachableViaWWAN) {
-        NSLog(@"当前通过2g or 3g连接") ;
-    } else {
-        NSLog(@"2g or 3g网络未使用") ;
-    }
-}
-
 
 #pragma mark- 定时响应
--(void)sendPacket {
-    if (sendPacketTimes<TIMES) {
-        NSLog(@"sendPacket %d times",sendPacketTimes);
-        [udpSocket sendToUDPServer:packet];
-        sendPacketTimes++;
-    }else{
-        [self cancelAllTimer];
-        [GlobalMethod closePressDialog];
-        [self removeAlertView];
-        wifiAlert = [[UIAlertView alloc] initWithTitle:nil message:@"设备无响应，请重试" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [wifiAlert show];
-    }
-}
-
-//wifino1消失的时候调用
--(void)checkWifiDisappear{
-    info = [GlobalMethod getNetworkInfo];
-    NSString * wifi =[info objectForKey:@"SSID"];
-    if (![wifi isEqualToString:@"wifino1"]) {
-        [self cancelAllTimer];
-        matchSuccess = YES;
-        addDeviceTimer = [NSTimer scheduledTimerWithTimeInterval:40 target:self selector:@selector(sendCmdTimeOut) userInfo:nil repeats:NO];
-        [GlobalMethod toast:@"WiFi设备同步成功"];
-    }
-}
 
 -(void)sendCmdTimeOut{
-    self.btn_config.enabled = YES;
-    [self.btn_config setTitle:@"配置" forState:UIControlStateNormal];
+    macAddress = nil;
+    [self.btn_config setTitle:@"配置设备" forState:UIControlStateNormal];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-    //[sm closeSession:YES];
     [self cancelAllTimer];
     [GlobalMethod closePressDialog];
     isStop = YES;
     [GlobalMethod toast:@"信号被外星人劫持了\n1.请检查Wifi密码是否输入正确\n2.若密码正确请把设备恢复出厂设置重新配置"];
 }
 
--(void)cancelAllTimer{
-    if (sendPacketTimer!=nil) {
-        [sendPacketTimer invalidate];
-        sendPacketTimer = nil;
-    }
-    if (checkWifiDisappearTimer != nil) {
-        [checkWifiDisappearTimer invalidate];
-        checkWifiDisappearTimer = nil;
-    }
-    if (addDeviceTimer != nil) {
+-(void)cancelAddDeviceTimer{
+    if(addDeviceTimer){
         [addDeviceTimer invalidate];
         addDeviceTimer = nil;
     }
-    
-    if (sendCmdTimer != nil){
-        [sendCmdTimer invalidate];
-        sendCmdTimer = nil;
-    }
-    
-    if (timerOut != nil){
+}
+
+-(void)cancelConfigTimer{
+    if (timerOut) {
         [timerOut invalidate];
         timerOut = nil;
     }
+}
+
+-(void)cancelAllTimer{
+    
+    [self cancelAddDeviceTimer];
+    
+    [self cancelConfigTimer];
 }
 
 
@@ -1024,11 +766,6 @@
 }
 
 - (void)sureInputPwd{
-//    NSString * wifiname =[self.tf_routerPwd.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    if (wifiname.length <=0) {
-//        [GlobalMethod toast:@"请输入路由器密码"];
-//        return;
-//    }
     
     for(UIView *view in self.view.subviews){
         if(view.tag == 503 || view.tag == 504){
@@ -1036,11 +773,9 @@
         }
     }
     
-    if(!self.isAirControl){
-        [self thirdStep];
-    }else{
-        [self overStep];
-    }
+
+    [self overStep];
+
     
 }
 
@@ -1050,8 +785,7 @@
     CGFloat iphoneW = iphoneH * 0.542;
     CGFloat iphoneX = (SCREEN_WIDTH - iphoneW) / 2 + (iphoneW * 0.123) / 2;
     
-    
-    CGFloat iphoneY = 90;
+    CGFloat iphoneY = 30;
     
     if([[UIScreen mainScreen] bounds].size.height == 480){
         iphoneY = 65;
@@ -1083,7 +817,7 @@
     CGFloat buttonWidth = self.btn_config.frame.size.width * 0.6;
     CGFloat buttnHeight = self.btn_config.frame.size.height - 10;
     CGFloat buttonX = (SCREEN_WIDTH - buttonWidth) / 2;
-    CGFloat buttonY = SCREEN_HEIGHT - 2 * buttnHeight;//label.frame.origin.y + label.frame.size.height + 20;
+    CGFloat buttonY = label.frame.origin.y + label.frame.size.height + 20;//SCREEN_HEIGHT - 2 * buttnHeight;//
     CGRect btnNextFrame = CGRectMake(buttonX, buttonY, buttonWidth, buttnHeight);
     UIButton *btnNext = [[UIButton alloc] init];
     btnNext.frame = btnNextFrame;
@@ -1097,7 +831,6 @@
 }
 
 -(void)overStep{
-    
     [self.tf_routerPwd resignFirstResponder];
     
     for(UIView *view in self.view.subviews){
@@ -1105,12 +838,9 @@
             [view removeFromSuperview];
         }
         [backView removeFromSuperview];
-        [((MyTabBarVC *)([UIApplication sharedApplication].keyWindow.rootViewController)) removeMaskView];
+        [navCoverView removeFromSuperview];
     }
     
-    if (!self.isAirControl) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
-    }
     self.wifiImage.hidden = NO;
     
     CGFloat labelY = self.wifiImage.frame.origin.y + self.wifiImage.frame.size.height;

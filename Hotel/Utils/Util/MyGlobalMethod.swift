@@ -191,15 +191,4 @@ class MyGlobalMethod: NSObject {
     }
     
     
-    //获取当前显示VC
-//    class func getVC(view:UIView) -> UIViewController?{
-//        var target:AnyObject? = view
-//        while(target != nil){
-//            target = target!.nextResponder()
-//            if target is UIViewController{
-//                return target as? UIViewController
-//            }
-//        }
-//        return nil
-//    }
 }

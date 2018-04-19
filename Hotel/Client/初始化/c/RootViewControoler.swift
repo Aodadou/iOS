@@ -24,4 +24,7 @@ class RootViewController: UIViewController {
         self.hidesBottomBarWhenPushed = false
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }

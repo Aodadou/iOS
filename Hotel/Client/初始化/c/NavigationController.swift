@@ -7,6 +7,7 @@ class NavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        UINavigationBar.appearance().tintColor = .white
         self.setNavBackColor(color: mainTintColor)
         self.setNavTitleColor(color: .white)
     }

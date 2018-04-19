@@ -18,12 +18,13 @@ class NotificationVM: NSObject {
     override init() {
         super.init()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.delegate?.receiveCMD(notification:)), name: NSNotification.Name(rawValue: kReceiveCMD), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.delegate?.getAllDevice(notification:)), name: NSNotification.Name(rawValue: "getAllDevice"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.delegate?.receiveFF(notification:)), name: NSNotification.Name(rawValue: "Receive_FF"), object: nil)
-
-        
     }
     
+    convenience init(target:AnyObject) {
+        self.init()
+        NotificationCenter.default.addObserver(target, selector: #selector(self.delegate?.receiveCMD(notification:)), name: NSNotification.Name(rawValue: kReceiveCMD), object: nil)
+        NotificationCenter.default.addObserver(target, selector: #selector(self.delegate?.getAllDevice(notification:)), name: NSNotification.Name(rawValue: "getAllDevice"), object: nil)
+        NotificationCenter.default.addObserver(target, selector: #selector(self.delegate?.receiveFF(notification:)), name: NSNotification.Name(rawValue: "Receive_FF"), object: nil)
+    }
     
 }

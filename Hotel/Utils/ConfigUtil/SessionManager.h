@@ -13,6 +13,8 @@
 #define PORT 10227
 #define APP_VERSION @"10000"
 
+#define HOTEL_DEFAULT_PWD @"123"
+
 
 @interface SessionManager : NSObject<CMDHelperDelegate>
 
@@ -24,6 +26,8 @@
 @property(nonatomic,assign) BOOL isBackground;//程序是否后台运行
 @property(nonatomic,assign) BOOL isHandClosed;//是否手动关闭
 @property(nonatomic,assign,readonly) BOOL isConnected;//是否连接到服务器
+
+@property(nonatomic,strong) ControlTcpSocket *controlTcp;
 
 +(SessionManager*)shareSessionManager;
 

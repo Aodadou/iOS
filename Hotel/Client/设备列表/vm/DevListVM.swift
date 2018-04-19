@@ -3,11 +3,12 @@ import UIKit
 
 class DevListVM: NSObject,NotificationDelegate {
     weak var target:DeviceListVC?
-    let notificationVM = NotificationVM()
+    var notificationVM:NotificationVM?
     
     override init() {
         super.init()
-        self.notificationVM.delegate = self
+        notificationVM = NotificationVM(target:self as AnyObject)
+        self.notificationVM!.delegate = self
     }
     
     
@@ -15,8 +16,12 @@ class DevListVM: NSObject,NotificationDelegate {
         
     }
     
-    func receiveCMD(notification:NSNotification){
+    func actionRefresh(){
         
+    }
+    
+    func receiveCMD(notification:NSNotification){
+        print("aaaaaaaaa")
     }
     
     func getAllDevice(notification:NSNotification){

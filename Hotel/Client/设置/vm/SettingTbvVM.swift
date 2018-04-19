@@ -16,7 +16,7 @@ class SettingTbvVM: NSObject,UITableViewDelegate,UITableViewDataSource {
             cell = UITableViewCell(style: .default, reuseIdentifier: "SettingCell")
         }
         
-        cell!.textLabel?.textColor = backColor
+        cell!.textLabel?.textColor = selectTfColor
         cell!.textLabel?.text = titles[indexPath.row]
         cell!.accessoryType = .disclosureIndicator
         cell!.selectionStyle = .none
@@ -37,5 +37,9 @@ class SettingTbvVM: NSObject,UITableViewDelegate,UITableViewDataSource {
             }
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55;
     }
 }

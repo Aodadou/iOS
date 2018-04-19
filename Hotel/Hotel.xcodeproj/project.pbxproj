@@ -932,22 +932,17 @@
 		0B2534F9206E0C4C00A95DC1 /* UdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534BA206E0C4C00A95DC1 /* UdpSocket.m */; };
 		0B2534FA206E0C4C00A95DC1 /* DeviceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534BB206E0C4C00A95DC1 /* DeviceUtil.swift */; };
 		0B2534FB206E0C4C00A95DC1 /* GCDTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534BD206E0C4C00A95DC1 /* GCDTimer.m */; };
-		0B2534FC206E0C4C00A95DC1 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534BF206E0C4C00A95DC1 /* GlobalData.m */; };
 		0B2534FD206E0C4C00A95DC1 /* GlobalMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534C1206E0C4C00A95DC1 /* GlobalMethod.m */; };
 		0B2534FF206E0C4C00A95DC1 /* JNWSpringAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534C4206E0C4C00A95DC1 /* JNWSpringAnimation.m */; };
 		0B253500206E0C4C00A95DC1 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534C6206E0C4C00A95DC1 /* MBProgressHUD.m */; };
 		0B253501206E0C4C00A95DC1 /* MyGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534C8206E0C4C00A95DC1 /* MyGlobalData.m */; };
 		0B253502206E0C4C00A95DC1 /* MyGlobalMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534C9206E0C4C00A95DC1 /* MyGlobalMethod.swift */; };
 		0B253504206E0C4C00A95DC1 /* NSValue+JNWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534CD206E0C4C00A95DC1 /* NSValue+JNWAdditions.m */; };
-		0B253505206E0C4C00A95DC1 /* CommandUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534D0206E0C4C00A95DC1 /* CommandUtil.m */; };
-		0B253506206E0C4C00A95DC1 /* ServerResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534D2206E0C4C00A95DC1 /* ServerResult.m */; };
-		0B253507206E0C4C00A95DC1 /* UDPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534D4206E0C4C00A95DC1 /* UDPPacket.m */; };
 		0B253508206E0C4C00A95DC1 /* OMGToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534D6206E0C4C00A95DC1 /* OMGToast.m */; };
 		0B25350C206E0C4C00A95DC1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534DD206E0C4C00A95DC1 /* Reachability.m */; };
 		0B25350D206E0C4C00A95DC1 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534DF206E0C4C00A95DC1 /* SessionManager.m */; };
 		0B25350E206E0C4C00A95DC1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534E0206E0C4C00A95DC1 /* StringExtension.swift */; };
 		0B25350F206E0C4C00A95DC1 /* ThreeDES.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534E2206E0C4C00A95DC1 /* ThreeDES.m */; };
-		0B253510206E0C4C00A95DC1 /* MyUDPSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534E5206E0C4C00A95DC1 /* MyUDPSocket.m */; };
 		0B253511206E0C4C00A95DC1 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534E6206E0C4C00A95DC1 /* UIButtonExtension.swift */; };
 		0B253512206E0C4C00A95DC1 /* UIImage+KIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534E8206E0C4C00A95DC1 /* UIImage+KIAdditions.m */; };
 		0B253514206E0C4C00A95DC1 /* UITextField+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2534EC206E0C4C00A95DC1 /* UITextField+Shake.m */; };
@@ -965,6 +960,16 @@
 		0B8C14BE2080501C0093256C /* SettingTbvVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14BD2080501C0093256C /* SettingTbvVM.swift */; };
 		0B8C14C120805C7B0093256C /* Bolloon.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14BF20805C7B0093256C /* Bolloon.m */; };
 		0B8C14C420805CA10093256C /* ConfigVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14C320805CA10093256C /* ConfigVC.m */; };
+		0B8C14D0208596870093256C /* ToolBarView2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B8C14CC208596860093256C /* ToolBarView2.xib */; };
+		0B8C14D1208596870093256C /* MultiPathCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14CD208596860093256C /* MultiPathCell.swift */; };
+		0B8C14D2208596870093256C /* ToolBarView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14CE208596870093256C /* ToolBarView2.swift */; };
+		0B8C14D3208596870093256C /* MultiPathCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B8C14CF208596870093256C /* MultiPathCell.xib */; };
+		0B8C14D62085EB960093256C /* LampControlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14D52085EB960093256C /* LampControlVC.swift */; };
+		0B8C14D82085EC430093256C /* MultiPathListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14D72085EC430093256C /* MultiPathListVC.swift */; };
+		0B8C14DB2085ECC20093256C /* DeviceInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14DA2085ECC20093256C /* DeviceInfoVC.swift */; };
+		0B8C14DF2085F0D50093256C /* MPTbvVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14DE2085F0D50093256C /* MPTbvVM.swift */; };
+		0B8C14E12085F1560093256C /* MPCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14E02085F1560093256C /* MPCellVM.swift */; };
+		0B8C14E32085F3F20093256C /* MPListVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8C14E22085F3F20093256C /* MPListVCExtension.swift */; };
 		4E9CB3449D0B6D11867977E6 /* libPods-Hotel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C57C3286AA275CA579C72F /* libPods-Hotel.a */; };
 /* End PBXBuildFile section */
 
@@ -1909,8 +1914,6 @@
 		0B2534BB206E0C4C00A95DC1 /* DeviceUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceUtil.swift; sourceTree = "<group>"; };
 		0B2534BC206E0C4C00A95DC1 /* GCDTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDTimer.h; sourceTree = "<group>"; };
 		0B2534BD206E0C4C00A95DC1 /* GCDTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDTimer.m; sourceTree = "<group>"; };
-		0B2534BE206E0C4C00A95DC1 /* GlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalData.h; sourceTree = "<group>"; };
-		0B2534BF206E0C4C00A95DC1 /* GlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalData.m; sourceTree = "<group>"; };
 		0B2534C0206E0C4C00A95DC1 /* GlobalMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalMethod.h; sourceTree = "<group>"; };
 		0B2534C1206E0C4C00A95DC1 /* GlobalMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalMethod.m; sourceTree = "<group>"; };
 		0B2534C3206E0C4C00A95DC1 /* JNWSpringAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNWSpringAnimation.h; sourceTree = "<group>"; };
@@ -1922,12 +1925,6 @@
 		0B2534C9206E0C4C00A95DC1 /* MyGlobalMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGlobalMethod.swift; sourceTree = "<group>"; };
 		0B2534CC206E0C4C00A95DC1 /* NSValue+JNWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+JNWAdditions.h"; sourceTree = "<group>"; };
 		0B2534CD206E0C4C00A95DC1 /* NSValue+JNWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+JNWAdditions.m"; sourceTree = "<group>"; };
-		0B2534CF206E0C4C00A95DC1 /* CommandUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandUtil.h; sourceTree = "<group>"; };
-		0B2534D0206E0C4C00A95DC1 /* CommandUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandUtil.m; sourceTree = "<group>"; };
-		0B2534D1206E0C4C00A95DC1 /* ServerResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerResult.h; sourceTree = "<group>"; };
-		0B2534D2206E0C4C00A95DC1 /* ServerResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerResult.m; sourceTree = "<group>"; };
-		0B2534D3206E0C4C00A95DC1 /* UDPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPPacket.h; sourceTree = "<group>"; };
-		0B2534D4206E0C4C00A95DC1 /* UDPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPPacket.m; sourceTree = "<group>"; };
 		0B2534D5206E0C4C00A95DC1 /* OMGToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMGToast.h; sourceTree = "<group>"; };
 		0B2534D6206E0C4C00A95DC1 /* OMGToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMGToast.m; sourceTree = "<group>"; };
 		0B2534DC206E0C4C00A95DC1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -1937,8 +1934,6 @@
 		0B2534E0206E0C4C00A95DC1 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0B2534E1206E0C4C00A95DC1 /* ThreeDES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDES.h; sourceTree = "<group>"; };
 		0B2534E2206E0C4C00A95DC1 /* ThreeDES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDES.m; sourceTree = "<group>"; };
-		0B2534E4206E0C4C00A95DC1 /* MyUDPSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyUDPSocket.h; sourceTree = "<group>"; };
-		0B2534E5206E0C4C00A95DC1 /* MyUDPSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUDPSocket.m; sourceTree = "<group>"; };
 		0B2534E6206E0C4C00A95DC1 /* UIButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		0B2534E7206E0C4C00A95DC1 /* UIImage+KIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+KIAdditions.h"; sourceTree = "<group>"; };
 		0B2534E8206E0C4C00A95DC1 /* UIImage+KIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+KIAdditions.m"; sourceTree = "<group>"; };
@@ -1961,6 +1956,16 @@
 		0B8C14C020805C7B0093256C /* Bolloon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bolloon.h; sourceTree = "<group>"; };
 		0B8C14C220805CA10093256C /* ConfigVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigVC.h; sourceTree = "<group>"; };
 		0B8C14C320805CA10093256C /* ConfigVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigVC.m; sourceTree = "<group>"; };
+		0B8C14CC208596860093256C /* ToolBarView2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToolBarView2.xib; sourceTree = "<group>"; };
+		0B8C14CD208596860093256C /* MultiPathCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPathCell.swift; sourceTree = "<group>"; };
+		0B8C14CE208596870093256C /* ToolBarView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarView2.swift; sourceTree = "<group>"; };
+		0B8C14CF208596870093256C /* MultiPathCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultiPathCell.xib; sourceTree = "<group>"; };
+		0B8C14D52085EB960093256C /* LampControlVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LampControlVC.swift; sourceTree = "<group>"; };
+		0B8C14D72085EC430093256C /* MultiPathListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPathListVC.swift; sourceTree = "<group>"; };
+		0B8C14DA2085ECC20093256C /* DeviceInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfoVC.swift; sourceTree = "<group>"; };
+		0B8C14DE2085F0D50093256C /* MPTbvVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPTbvVM.swift; sourceTree = "<group>"; };
+		0B8C14E02085F1560093256C /* MPCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCellVM.swift; sourceTree = "<group>"; };
+		0B8C14E22085F3F20093256C /* MPListVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPListVCExtension.swift; sourceTree = "<group>"; };
 		0B98CD2C2071E257006B2D80 /* OC-SWIFT-BRIDGE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OC-SWIFT-BRIDGE.h"; sourceTree = "<group>"; };
 		0B98CD302072114B006B2D80 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		31156EA943B07E665DB364D6 /* Pods-Hotel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hotel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hotel/Pods-Hotel.release.xcconfig"; sourceTree = "<group>"; };
@@ -3332,7 +3337,6 @@
 			children = (
 				0B253517206E0C6000A95DC1 /* ConfigUtil */,
 				0B2534A6206E0C4B00A95DC1 /* Util */,
-				0B2534A4206DEE9C00A95DC1 /* PublicClassMethod.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3340,22 +3344,19 @@
 		0B2534A6206E0C4B00A95DC1 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				0B2534C7206E0C4C00A95DC1 /* MyGlobalData.h */,
+				0B2534C8206E0C4C00A95DC1 /* MyGlobalData.m */,
 				0B2534A7206E0C4C00A95DC1 /* Command+GetCMDNo.h */,
 				0B2534A8206E0C4C00A95DC1 /* Command+GetCMDNo.m */,
+				0B2534A4206DEE9C00A95DC1 /* PublicClassMethod.swift */,
 				0B2534BB206E0C4C00A95DC1 /* DeviceUtil.swift */,
 				0B2534BC206E0C4C00A95DC1 /* GCDTimer.h */,
 				0B2534BD206E0C4C00A95DC1 /* GCDTimer.m */,
 				0B2534C0206E0C4C00A95DC1 /* GlobalMethod.h */,
 				0B2534C1206E0C4C00A95DC1 /* GlobalMethod.m */,
-				0B2534C3206E0C4C00A95DC1 /* JNWSpringAnimation.h */,
-				0B2534C4206E0C4C00A95DC1 /* JNWSpringAnimation.m */,
 				0B2534C5206E0C4C00A95DC1 /* MBProgressHUD.h */,
 				0B2534C6206E0C4C00A95DC1 /* MBProgressHUD.m */,
-				0B2534C7206E0C4C00A95DC1 /* MyGlobalData.h */,
-				0B2534C8206E0C4C00A95DC1 /* MyGlobalData.m */,
 				0B2534C9206E0C4C00A95DC1 /* MyGlobalMethod.swift */,
-				0B2534CC206E0C4C00A95DC1 /* NSValue+JNWAdditions.h */,
-				0B2534CD206E0C4C00A95DC1 /* NSValue+JNWAdditions.m */,
 				0B2534D5206E0C4C00A95DC1 /* OMGToast.h */,
 				0B2534D6206E0C4C00A95DC1 /* OMGToast.m */,
 				0B2534E0206E0C4C00A95DC1 /* StringExtension.swift */,
@@ -3368,48 +3369,15 @@
 				0B2534EC206E0C4C00A95DC1 /* UITextField+Shake.m */,
 				0B2534ED206E0C4C00A95DC1 /* Util.h */,
 				0B2534EE206E0C4C00A95DC1 /* Util.m */,
+				0B8C14CA20858F8B0093256C /* JNWAnimation */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		0B2534A9206E0C4C00A95DC1 /* ConfigWifi */ = {
-			isa = PBXGroup;
-			children = (
-				0B2534E3206E0C4C00A95DC1 /* UDPClient */,
-				0B2534CE206E0C4C00A95DC1 /* Object */,
-			);
-			path = ConfigWifi;
-			sourceTree = "<group>";
-		};
-		0B2534CE206E0C4C00A95DC1 /* Object */ = {
-			isa = PBXGroup;
-			children = (
-				0B2534BE206E0C4C00A95DC1 /* GlobalData.h */,
-				0B2534BF206E0C4C00A95DC1 /* GlobalData.m */,
-				0B2534CF206E0C4C00A95DC1 /* CommandUtil.h */,
-				0B2534D0206E0C4C00A95DC1 /* CommandUtil.m */,
-				0B2534D1206E0C4C00A95DC1 /* ServerResult.h */,
-				0B2534D2206E0C4C00A95DC1 /* ServerResult.m */,
-				0B2534D3206E0C4C00A95DC1 /* UDPPacket.h */,
-				0B2534D4206E0C4C00A95DC1 /* UDPPacket.m */,
-			);
-			path = Object;
-			sourceTree = "<group>";
-		};
-		0B2534E3206E0C4C00A95DC1 /* UDPClient */ = {
-			isa = PBXGroup;
-			children = (
-				0B2534E4206E0C4C00A95DC1 /* MyUDPSocket.h */,
-				0B2534E5206E0C4C00A95DC1 /* MyUDPSocket.m */,
-			);
-			path = UDPClient;
 			sourceTree = "<group>";
 		};
 		0B253517206E0C6000A95DC1 /* ConfigUtil */ = {
 			isa = PBXGroup;
 			children = (
 				0B98CD2D20720EC7006B2D80 /* ConfigOnce */,
-				0B2534A9206E0C4C00A95DC1 /* ConfigWifi */,
 				0B2534DE206E0C4C00A95DC1 /* SessionManager.h */,
 				0B2534DF206E0C4C00A95DC1 /* SessionManager.m */,
 				0B2534DC206E0C4C00A95DC1 /* Reachability.h */,
@@ -3429,6 +3397,7 @@
 		0B8C1426207AFDBE0093256C /* 通用 */ = {
 			isa = PBXGroup;
 			children = (
+				0B8C14D92085ECA70093256C /* c */,
 				0B8C1428207AFDDF0093256C /* v */,
 				0B8C1427207AFDD90093256C /* vm */,
 			);
@@ -3496,6 +3465,9 @@
 		0B8C14C52080AB5C0093256C /* 开关 */ = {
 			isa = PBXGroup;
 			children = (
+				0B8C14DC2085EF770093256C /* vm */,
+				0B8C14D42085EB890093256C /* c */,
+				0B8C14CB208596760093256C /* v */,
 			);
 			path = "开关";
 			sourceTree = "<group>";
@@ -3526,6 +3498,55 @@
 			children = (
 			);
 			path = "灯光";
+			sourceTree = "<group>";
+		};
+		0B8C14CA20858F8B0093256C /* JNWAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				0B2534C3206E0C4C00A95DC1 /* JNWSpringAnimation.h */,
+				0B2534C4206E0C4C00A95DC1 /* JNWSpringAnimation.m */,
+				0B2534CC206E0C4C00A95DC1 /* NSValue+JNWAdditions.h */,
+				0B2534CD206E0C4C00A95DC1 /* NSValue+JNWAdditions.m */,
+			);
+			path = JNWAnimation;
+			sourceTree = "<group>";
+		};
+		0B8C14CB208596760093256C /* v */ = {
+			isa = PBXGroup;
+			children = (
+				0B8C14CD208596860093256C /* MultiPathCell.swift */,
+				0B8C14CF208596870093256C /* MultiPathCell.xib */,
+				0B8C14CE208596870093256C /* ToolBarView2.swift */,
+				0B8C14CC208596860093256C /* ToolBarView2.xib */,
+			);
+			path = v;
+			sourceTree = "<group>";
+		};
+		0B8C14D42085EB890093256C /* c */ = {
+			isa = PBXGroup;
+			children = (
+				0B8C14D72085EC430093256C /* MultiPathListVC.swift */,
+				0B8C14E22085F3F20093256C /* MPListVCExtension.swift */,
+				0B8C14D52085EB960093256C /* LampControlVC.swift */,
+			);
+			path = c;
+			sourceTree = "<group>";
+		};
+		0B8C14D92085ECA70093256C /* c */ = {
+			isa = PBXGroup;
+			children = (
+				0B8C14DA2085ECC20093256C /* DeviceInfoVC.swift */,
+			);
+			path = c;
+			sourceTree = "<group>";
+		};
+		0B8C14DC2085EF770093256C /* vm */ = {
+			isa = PBXGroup;
+			children = (
+				0B8C14DE2085F0D50093256C /* MPTbvVM.swift */,
+				0B8C14E02085F1560093256C /* MPCellVM.swift */,
+			);
+			path = vm;
 			sourceTree = "<group>";
 		};
 		0B98CD2D20720EC7006B2D80 /* ConfigOnce */ = {
@@ -4004,6 +4025,7 @@
 				0B1F569E20723F6B00F95FA1 /* 音乐模式按下@2x.png in Resources */,
 				0B1F564420723F6A00F95FA1 /* 安防保存按钮按下@2x.png in Resources */,
 				0B1F575C20723F6B00F95FA1 /* 晚上@3x.png in Resources */,
+				0B8C14D0208596870093256C /* ToolBarView2.xib in Resources */,
 				0B1F572720723F6B00F95FA1 /* 退出账号按钮@2x.png in Resources */,
 				0B1F56E020723F6B00F95FA1 /* 定时晚上@2x.png in Resources */,
 				0B1F56B920723F6B00F95FA1 /* 派对模式@3x.png in Resources */,
@@ -4326,6 +4348,7 @@
 				0B1F581520723F6C00F95FA1 /* v12清空提示底图返回_按下@3x.png in Resources */,
 				0B1F578C20723F6B00F95FA1 /* 遥控器对码图标按下@3x.png in Resources */,
 				0B1F564B20723F6A00F95FA1 /* 左箭头按下@3x.png in Resources */,
+				0B8C14D3208596870093256C /* MultiPathCell.xib in Resources */,
 				0B1F57BE20723F6C00F95FA1 /* v10删除按钮_常规@2x.png in Resources */,
 				0B1F591720723F6D00F95FA1 /* 电压框@3x.png in Resources */,
 				0B1F575920723F6B00F95FA1 /* 早上@3x.png in Resources */,
@@ -4565,6 +4588,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B8C14DF2085F0D50093256C /* MPTbvVM.swift in Sources */,
 				0B25350D206E0C4C00A95DC1 /* SessionManager.m in Sources */,
 				0B8C14BC208048A20093256C /* SettingVC.swift in Sources */,
 				0B2534F9206E0C4C00A95DC1 /* UdpSocket.m in Sources */,
@@ -4576,8 +4600,11 @@
 				0B2534F6206E0C4C00A95DC1 /* ControlTcpSocket.m in Sources */,
 				0B253501206E0C4C00A95DC1 /* MyGlobalData.m in Sources */,
 				0B8C142B207AFE2F0093256C /* DeviceStatuUtil.swift in Sources */,
+				0B8C14D62085EB960093256C /* LampControlVC.swift in Sources */,
 				0B253512206E0C4C00A95DC1 /* UIImage+KIAdditions.m in Sources */,
 				0B8C14C420805CA10093256C /* ConfigVC.m in Sources */,
+				0B8C14D1208596870093256C /* MultiPathCell.swift in Sources */,
+				0B8C14E12085F1560093256C /* MPCellVM.swift in Sources */,
 				0B2534FB206E0C4C00A95DC1 /* GCDTimer.m in Sources */,
 				0B2534FF206E0C4C00A95DC1 /* JNWSpringAnimation.m in Sources */,
 				0B2529C3206CCE2B00A95DC1 /* ViewController.m in Sources */,
@@ -4586,14 +4613,13 @@
 				0B2534F3206E0C4C00A95DC1 /* AsyncUdpSocket.m in Sources */,
 				0B2534A2206D0BB000A95DC1 /* DeviceListVC.swift in Sources */,
 				0B2534FA206E0C4C00A95DC1 /* DeviceUtil.swift in Sources */,
+				0B8C14D82085EC430093256C /* MultiPathListVC.swift in Sources */,
 				0B1F59A02072408300F95FA1 /* NavigationController.swift in Sources */,
 				0B8C141C2074BCCD0093256C /* DeviceCell.swift in Sources */,
-				0B253506206E0C4C00A95DC1 /* ServerResult.m in Sources */,
 				0B8C141F2074C4DC0093256C /* DevCellVM.swift in Sources */,
 				0B2529CE206CCE2B00A95DC1 /* main.m in Sources */,
 				0B253504206E0C4C00A95DC1 /* NSValue+JNWAdditions.m in Sources */,
 				0B2534A5206DEE9C00A95DC1 /* PublicClassMethod.swift in Sources */,
-				0B253510206E0C4C00A95DC1 /* MyUDPSocket.m in Sources */,
 				0B253500206E0C4C00A95DC1 /* MBProgressHUD.m in Sources */,
 				0B253514206E0C4C00A95DC1 /* UITextField+Shake.m in Sources */,
 				0B8C1425207A11A10093256C /* MyAlertView.swift in Sources */,
@@ -4601,19 +4627,19 @@
 				0B2529C0206CCE2B00A95DC1 /* AppDelegate.m in Sources */,
 				0B2534FD206E0C4C00A95DC1 /* GlobalMethod.m in Sources */,
 				0B8C14BE2080501C0093256C /* SettingTbvVM.swift in Sources */,
+				0B8C14DB2085ECC20093256C /* DeviceInfoVC.swift in Sources */,
 				0B25350E206E0C4C00A95DC1 /* StringExtension.swift in Sources */,
 				0B8C14212074C5440093256C /* DevListVM.swift in Sources */,
 				0B2534F8206E0C4C00A95DC1 /* SmartConfig1.m in Sources */,
 				0B2534F5206E0C4C00A95DC1 /* ConfigWifi.m in Sources */,
 				0B8C14182074BBAA0093256C /* RootViewControoler.swift in Sources */,
 				0B253502206E0C4C00A95DC1 /* MyGlobalMethod.swift in Sources */,
-				0B253505206E0C4C00A95DC1 /* CommandUtil.m in Sources */,
 				0B25350C206E0C4C00A95DC1 /* Reachability.m in Sources */,
 				0B25350F206E0C4C00A95DC1 /* ThreeDES.m in Sources */,
 				0B1F59A2207240C000F95FA1 /* MyTabBarVC.swift in Sources */,
-				0B253507206E0C4C00A95DC1 /* UDPPacket.m in Sources */,
+				0B8C14E32085F3F20093256C /* MPListVCExtension.swift in Sources */,
 				0B2534F2206E0C4C00A95DC1 /* AsyncSocket.m in Sources */,
-				0B2534FC206E0C4C00A95DC1 /* GlobalData.m in Sources */,
+				0B8C14D2208596870093256C /* ToolBarView2.swift in Sources */,
 				0B8C14232074FCBB0093256C /* NotificationVM.swift in Sources */,
 				0B253508206E0C4C00A95DC1 /* OMGToast.m in Sources */,
 			);

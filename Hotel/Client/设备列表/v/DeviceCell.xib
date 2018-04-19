@@ -36,7 +36,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="水晶灯" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Tn-aN-WI5">
-                        <rect key="frame" x="87" y="17" width="56" height="22"/>
+                        <rect key="frame" x="87" y="17" width="165" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="aWP-qi-5zz"/>
                             <constraint firstAttribute="width" constant="182" id="psB-7k-J9q"/>
@@ -141,7 +141,7 @@
                     <constraint firstItem="v2W-vg-jvg" firstAttribute="leading" secondItem="dhn-gl-CHb" secondAttribute="trailing" constant="-14" id="Q1a-d9-NMu"/>
                     <constraint firstItem="A9w-fc-MmA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="R9R-jP-Cao"/>
                     <constraint firstItem="Cby-JW-KvU" firstAttribute="leading" secondItem="6NU-Pv-VhT" secondAttribute="leading" constant="10" id="RRe-mD-5pO"/>
-                    <constraint firstItem="v2W-vg-jvg" firstAttribute="leading" secondItem="0Tn-aN-WI5" secondAttribute="trailing" constant="119" id="SHa-QX-fXm"/>
+                    <constraint firstItem="v2W-vg-jvg" firstAttribute="leading" secondItem="0Tn-aN-WI5" secondAttribute="trailing" constant="10" id="SHa-QX-fXm"/>
                     <constraint firstItem="0Tn-aN-WI5" firstAttribute="centerY" secondItem="6NU-Pv-VhT" secondAttribute="centerY" constant="-13.5" id="TNo-HW-NQk"/>
                     <constraint firstItem="wLq-9o-q8y" firstAttribute="bottom" secondItem="6NU-Pv-VhT" secondAttribute="bottom" constant="-3" id="V97-2D-Rmq"/>
                     <constraint firstItem="A9w-fc-MmA" firstAttribute="width" secondItem="wLq-9o-q8y" secondAttribute="width" id="b3x-bc-Xyo"/>
