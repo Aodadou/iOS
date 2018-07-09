@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AoPlaceView" customModule="Hotel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="264"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="_客厅默认" translatesAutoresizingMaskIntoConstraints="NO" id="FOh-Mn-MSd">
+                    <rect key="frame" x="5" y="10" width="365" height="196"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="syB-39-2Mn">
+                    <rect key="frame" x="5" y="206" width="365" height="48"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="白色" translatesAutoresizingMaskIntoConstraints="NO" id="7h1-JH-H3C">
+                            <rect key="frame" x="0.0" y="0.0" width="365" height="48"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avp-vN-oT9">
+                            <rect key="frame" x="20" y="3.5" width="35" height="35"/>
+                            <state key="normal" backgroundImage="修改房间信息按钮"/>
+                            <state key="highlighted" backgroundImage="修改房间信息按钮按下"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCA-Kg-m6o">
+                            <rect key="frame" x="310" y="3.5" width="35" height="35"/>
+                            <state key="normal" backgroundImage="房间添加设备按钮"/>
+                            <state key="highlighted" backgroundImage="房间添加设备按钮按下"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVd-ma-Mmu">
+                            <rect key="frame" x="111" y="10.5" width="143" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="143" id="kja-gE-3sY"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="ZVd-ma-Mmu" firstAttribute="centerY" secondItem="syB-39-2Mn" secondAttribute="centerY" constant="-3" id="B5J-Ot-5K0"/>
+                        <constraint firstItem="avp-vN-oT9" firstAttribute="centerY" secondItem="syB-39-2Mn" secondAttribute="centerY" constant="-3" id="DcV-Zf-sBT"/>
+                        <constraint firstItem="7h1-JH-H3C" firstAttribute="top" secondItem="syB-39-2Mn" secondAttribute="top" id="I9S-8q-e8l"/>
+                        <constraint firstAttribute="bottom" secondItem="7h1-JH-H3C" secondAttribute="bottom" id="OsZ-gd-TT7"/>
+                        <constraint firstItem="avp-vN-oT9" firstAttribute="leading" secondItem="syB-39-2Mn" secondAttribute="leading" constant="20" id="PKd-EY-QZJ"/>
+                        <constraint firstItem="wCA-Kg-m6o" firstAttribute="height" secondItem="avp-vN-oT9" secondAttribute="height" id="Tcg-WT-5o3"/>
+                        <constraint firstItem="7h1-JH-H3C" firstAttribute="leading" secondItem="syB-39-2Mn" secondAttribute="leading" id="VLv-no-5Ew"/>
+                        <constraint firstAttribute="height" constant="48" id="di3-hN-eWK"/>
+                        <constraint firstItem="ZVd-ma-Mmu" firstAttribute="centerX" secondItem="syB-39-2Mn" secondAttribute="centerX" id="ds5-im-M0R"/>
+                        <constraint firstAttribute="trailing" secondItem="wCA-Kg-m6o" secondAttribute="trailing" constant="20" id="l66-UR-T4X"/>
+                        <constraint firstAttribute="trailing" secondItem="7h1-JH-H3C" secondAttribute="trailing" id="mEd-wf-5Mx"/>
+                        <constraint firstItem="wCA-Kg-m6o" firstAttribute="width" secondItem="avp-vN-oT9" secondAttribute="width" id="sKb-N1-Kow"/>
+                        <constraint firstItem="wCA-Kg-m6o" firstAttribute="centerY" secondItem="syB-39-2Mn" secondAttribute="centerY" constant="-3" id="uRv-B5-MQz"/>
+                    </constraints>
+                </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xa-0U-zv7">
+                    <rect key="frame" x="5" y="10" width="365" height="196"/>
+                    <state key="normal" backgroundImage="_默认添加房间"/>
+                    <state key="highlighted" backgroundImage="_默认添加房间"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="0xa-0U-zv7" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-5" id="7H3-po-7X4"/>
+                <constraint firstItem="syB-39-2Mn" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" constant="-10" id="ClI-bi-g6x"/>
+                <constraint firstItem="syB-39-2Mn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="HiM-sv-hZK"/>
+                <constraint firstItem="syB-39-2Mn" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-5" id="Ode-JG-8XU"/>
+                <constraint firstItem="FOh-Mn-MSd" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-5" id="ZL2-XX-M0K"/>
+                <constraint firstItem="FOh-Mn-MSd" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="dOG-7o-Bzc"/>
+                <constraint firstItem="syB-39-2Mn" firstAttribute="top" secondItem="FOh-Mn-MSd" secondAttribute="bottom" id="hHH-Jc-zrq"/>
+                <constraint firstItem="FOh-Mn-MSd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="lWu-8y-Vhx"/>
+                <constraint firstItem="0xa-0U-zv7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="pH7-VK-nxE"/>
+                <constraint firstItem="0xa-0U-zv7" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="xld-wi-8bR"/>
+                <constraint firstItem="0xa-0U-zv7" firstAttribute="height" secondItem="FOh-Mn-MSd" secondAttribute="height" id="zkw-Eu-fIs"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="btnAddDevice" destination="wCA-Kg-m6o" id="6t7-6M-Plg"/>
+                <outlet property="btnAddNewPlace" destination="0xa-0U-zv7" id="ZIv-b2-Mf3"/>
+                <outlet property="btnEdit" destination="avp-vN-oT9" id="IaS-IN-puT"/>
+                <outlet property="imgvplace" destination="FOh-Mn-MSd" id="BzJ-Pw-fOx"/>
+                <outlet property="lbPlaceName" destination="ZVd-ma-Mmu" id="C5t-mG-VXR"/>
+            </connections>
+            <point key="canvasLocation" x="-140.5" y="-708"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="_客厅默认" width="344" height="179"/>
+        <image name="_默认添加房间" width="344" height="179"/>
+        <image name="修改房间信息按钮" width="35" height="35"/>
+        <image name="修改房间信息按钮按下" width="35" height="35"/>
+        <image name="房间添加设备按钮" width="35" height="35"/>
+        <image name="房间添加设备按钮按下" width="35" height="35"/>
+        <image name="白色" width="344" height="53"/>
+    </resources>
+</document>

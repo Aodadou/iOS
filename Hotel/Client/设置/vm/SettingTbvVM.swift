@@ -2,7 +2,7 @@
 
 import UIKit
 
-class SettingTbvVM: NSObject,UITableViewDelegate,UITableViewDataSource {
+class AoSettingTbvVM: NSObject,UITableViewDelegate,UITableViewDataSource {
     private let titles = ["配置设备","切换房间","常见问题","关于我们","当前版本"]
     weak var target:UIViewController?
     

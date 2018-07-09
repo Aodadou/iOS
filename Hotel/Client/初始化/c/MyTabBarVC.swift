@@ -1,7 +1,7 @@
 import UIKit
 
 //此项目的根视图
-class MyTabBarVC: UITabBarController {
+class AoTabBarVC: UITabBarController {
     var index = 0
     var maskView:UIView?
 

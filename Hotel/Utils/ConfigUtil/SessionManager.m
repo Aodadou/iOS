@@ -14,6 +14,8 @@
 #import <Protocol/CMD11_ServerDelDeviceResult.h>
 #import <Protocol/CMD24_QueryTimer.h>
 #import <Protocol/CMD25_ServerQueryTimerResult.h>
+#import <Protocol/CMD7B_GetAllGroupInfo.h>
+#import <Protocol/CMD7C_ServerReturnAllGroupInfo.h>
 #import <Protocol/NormalDevice.h>
 #import <Protocol/SwitcherDevice.h>
 
@@ -213,15 +215,23 @@ static SessionManager* instance;
     if(cmd->CommandNo == [CMD05_ServerRespondAllDeviceList commandConst]) {
         
         CMD05_ServerRespondAllDeviceList* cmd05 = (CMD05_ServerRespondAllDeviceList*)cmd;
-        NSMutableArray *array = [[NSMutableArray alloc] init];
-        for(CommonDevice *d in cmd05.deviceList){
-            [array addObject:d];
-        }
+//        NSMutableArray *array = [[NSMutableArray alloc] init];
+//        for(CommonDevice *d in cmd05.deviceList){
+//            [array addObject:d];
+//        }
         [MyGlobalData setDeviceList:nil];
-        [MyGlobalData setDeviceList:array];
+        [MyGlobalData setDeviceList:cmd05.deviceList];
         
         [GlobalMethod closePressDialog];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"getAllDevice" object:nil];
+        
+        CMD7B_GetAllGroupInfo *cmd7b = [[CMD7B_GetAllGroupInfo alloc] init];
+        [helper sendCMD:cmd7b];
+    }
+    
+    if ([cmd getCommandNo] == [CMD7C_ServerReturnAllGroupInfo commandConst]){
+        CMD7C_ServerReturnAllGroupInfo *cmd7c = (CMD7C_ServerReturnAllGroupInfo *)cmd;
+        [MyGlobalData setGroupInfoList:cmd7c.groupInfoList];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AoGetAllDevice" object:nil];
     }
 
 
@@ -396,12 +406,10 @@ static SessionManager* instance;
 
 - (CommonDevice *)CMDHelper:(CMDHelper *)helper parseDeviceWithSn:(NSString *)sn Type:(int)type State:(NSString *)state{
     
-    if (type == 0x01) {
-        
-    }else if(type == 0x03 || type == 0x02){
+    if(type == 0x01 ||type == 0x03 || type == 0x02){
         return [[SwitcherDevice alloc] init];
     }else if(type == 0x09){
-        
+        return [CommonDevice new];
     }else if (type == 0x0F){
         
     }else if(type == 0x14){
@@ -410,11 +418,9 @@ static SessionManager* instance;
         
     }else if(type == 41){
         
-    }else if (type == 193){
-        
     }
     
-    return [[CommonDevice alloc] init];
+    return nil;
 }
 
 @end

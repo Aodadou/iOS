@@ -1,16 +1,33 @@
 PODS:
+  - IQKeyboardManager (3.2.4)
   - Masonry (1.0.2)
+  - RxCocoa (4.1.2):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.1.2)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
+  - IQKeyboardManager (~> 3.2.4)
   - Masonry
+  - RxCocoa (~> 4.0)
+  - RxSwift (~> 4.0)
+  - SVProgressHUD
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - IQKeyboardManager
     - Masonry
+    - RxCocoa
+    - RxSwift
+    - SVProgressHUD
 
 SPEC CHECKSUMS:
+  IQKeyboardManager: 555b1231fefafb21b19278d7cca72986a27b748b
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxSwift: e49536837d9901277638493ea537394d4b55f570
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 17bf93db1baf79e29454b9aef2c6a51e1716ddf9
+PODFILE CHECKSUM: 2352c0635b009d93273c66748ef8e171bb6dd299
 
 COCOAPODS: 1.5.0

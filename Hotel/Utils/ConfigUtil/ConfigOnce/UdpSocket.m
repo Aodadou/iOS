@@ -109,7 +109,9 @@ static UdpSocket *instance;
                 hasChanged = YES;
             }
 
-            [[MyGlobalData getDeviceList] replaceObjectAtIndex:i withObject:device];
+            NSMutableArray<CommonDevice*> *dl = [[NSMutableArray alloc] initWithArray:[MyGlobalData getDeviceList]];
+            [dl replaceObjectAtIndex:i withObject:device];
+            [MyGlobalData setDeviceList:[[NSArray alloc] initWithArray:dl]];
             if (hasChanged) {
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"broast" object:nil];
 

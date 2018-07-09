@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ToolBarView2" customModule="YunHai" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VsU-Bn-1Yo">
+                    <rect key="frame" x="45" y="16" width="70" height="70"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="VsU-Bn-1Yo" secondAttribute="height" multiplier="1:1" id="kfL-0B-wcU"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="设备定时按钮.png"/>
+                    <state key="highlighted" backgroundImage="设备定时按钮按下.png"/>
+                    <connections>
+                        <action selector="setTime:" destination="iN0-l3-epB" eventType="touchUpInside" id="u5i-me-910"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="164-UD-aIu">
+                    <rect key="frame" x="160" y="94" width="160" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="wku-fu-y79"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.73725490199999999" green="0.73725490199999999" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="定时" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="up6-mj-aWU">
+                    <rect key="frame" x="0.0" y="94" width="160" height="21"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="AMB-o8-9jR"/>
+                        <constraint firstAttribute="height" constant="21" id="tMB-7A-0OQ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.73725490199999999" green="0.73725490199999999" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="AMB-o8-9jR"/>
+                        </mask>
+                    </variation>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hk4-2q-ta3">
+                    <rect key="frame" x="205" y="16" width="70" height="70"/>
+                    <state key="normal" backgroundImage="插座设备信息.png"/>
+                    <state key="highlighted" backgroundImage="插座设备信息按钮按下.png"/>
+                    <connections>
+                        <action selector="deviceInfo:" destination="iN0-l3-epB" eventType="touchUpInside" id="SGr-Ab-lso"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="VsU-Bn-1Yo" firstAttribute="centerX" secondItem="up6-mj-aWU" secondAttribute="centerX" id="1I3-5v-gjL"/>
+                <constraint firstItem="164-UD-aIu" firstAttribute="top" secondItem="hk4-2q-ta3" secondAttribute="bottom" constant="8" id="5ew-uh-EHM"/>
+                <constraint firstItem="hk4-2q-ta3" firstAttribute="width" secondItem="VsU-Bn-1Yo" secondAttribute="width" id="AbL-CR-Ege"/>
+                <constraint firstAttribute="bottom" secondItem="164-UD-aIu" secondAttribute="bottom" constant="15" id="M6Y-ql-d7u"/>
+                <constraint firstItem="up6-mj-aWU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PWJ-bU-W50"/>
+                <constraint firstItem="up6-mj-aWU" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.5" id="QTe-VN-W1e"/>
+                <constraint firstItem="VsU-Bn-1Yo" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.22" id="cPn-8j-WRo"/>
+                <constraint firstItem="hk4-2q-ta3" firstAttribute="height" secondItem="VsU-Bn-1Yo" secondAttribute="height" id="cnY-cV-cfb"/>
+                <constraint firstItem="hk4-2q-ta3" firstAttribute="centerX" secondItem="164-UD-aIu" secondAttribute="centerX" id="d9p-ma-sL1"/>
+                <constraint firstItem="164-UD-aIu" firstAttribute="width" secondItem="up6-mj-aWU" secondAttribute="width" id="j8S-fl-SxC"/>
+                <constraint firstAttribute="bottom" secondItem="up6-mj-aWU" secondAttribute="bottom" constant="15" id="kRT-PZ-1ev"/>
+                <constraint firstAttribute="trailing" secondItem="164-UD-aIu" secondAttribute="trailing" id="tXY-8j-SmH"/>
+                <constraint firstItem="up6-mj-aWU" firstAttribute="top" secondItem="VsU-Bn-1Yo" secondAttribute="bottom" constant="8" id="tfR-9r-Jnk"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="450" y="582"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="插座设备信息.png" width="69" height="69"/>
+        <image name="插座设备信息按钮按下.png" width="69" height="69"/>
+        <image name="设备定时按钮.png" width="69" height="69"/>
+        <image name="设备定时按钮按下.png" width="69" height="69"/>
+    </resources>
+</document>

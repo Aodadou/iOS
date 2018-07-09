@@ -10,7 +10,6 @@
 #import "JSONObject.h"
 
 
-
 ///All device extends this
 @interface Device : JSONObject
 
